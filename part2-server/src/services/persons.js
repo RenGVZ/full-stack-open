@@ -15,7 +15,7 @@ const createNew = (name, number, id) => {
   }).catch(err => console.log(err))
 };
 
-const updatePerson = (id, foundPerson) => {
+const updatePerson = (foundPerson) => {
   const request = axios.put(`${url}/${foundPerson.id}`, foundPerson)
   return request.then(res => res.data)
 }

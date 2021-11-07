@@ -26,11 +26,11 @@ export default function App() {
   }
 
   const updatePerson = (foundPerson) => {
-    services.updatePerson(foundPerson.id, { 
+    services.updatePerson({ 
       ...foundPerson,
       number: newNumber,
     })
-    getPeople();
+    formClear();
   }
 
   const deleteOne = (id, name) => {
@@ -42,6 +42,12 @@ export default function App() {
 
   useEffect(getPeople, [])
 
+  const formClear = () => {
+    getPeople();
+    setName("");
+    setNumber("");
+  }
+
   const addPerson = (e) => {
     e.preventDefault();
     const filtered = usePeople.some((person) => person.name === newName);
@@ -52,9 +58,7 @@ export default function App() {
       }
     } else if (!filtered) {
       postPeople(newName, newNumber);
-      getPeople();
-      setName("");
-      setNumber("");
+      formClear();
     }
   };
 
