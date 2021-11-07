@@ -21,13 +21,23 @@ export default function App() {
   };
 
   const postPeople = (name, number) => {
-    const id = usePeople.length - 1;
+    const id = usePeople.length + 1;
     services.createNew(name, number, id)
   }
 
-  const deleteOne = (id) => {
-    services.deletePerson(id);
+  const updatePerson = (foundPerson) => {
+    services.updatePerson(foundPerson.id, { 
+      ...foundPerson,
+      number: newNumber,
+    })
     getPeople();
+  }
+
+  const deleteOne = (id, name) => {
+    if(window.confirm(`Delete ${name}?`)) {
+      services.deletePerson(id);
+      getPeople();
+    }
   }
 
   useEffect(getPeople, [])
@@ -35,7 +45,12 @@ export default function App() {
   const addPerson = (e) => {
     e.preventDefault();
     const filtered = usePeople.some((person) => person.name === newName);
-    if (!filtered) {
+    if(filtered) {
+      const foundPerson = usePeople.find((person) => person.name === newName);
+      if(window.confirm(`${newName} has already been added to the phonebook, replace the old number with a new one?`)) {
+        updatePerson(foundPerson)
+      }
+    } else if (!filtered) {
       postPeople(newName, newNumber);
       getPeople();
       setName("");

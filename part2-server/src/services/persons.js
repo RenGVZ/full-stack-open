@@ -15,9 +15,14 @@ const createNew = (name, number, id) => {
   }).catch(err => console.log(err))
 };
 
+const updatePerson = (id, foundPerson) => {
+  const request = axios.put(`${url}/${foundPerson.id}`, foundPerson)
+  return request.then(res => res.data)
+}
+
 const deletePerson = (id) => {
    return axios.delete(`${url}/${id}`)
   .catch(err => console.log(err))
 };
 
-export default { getAll, createNew, deletePerson }
+export default { getAll, createNew, updatePerson, deletePerson }
